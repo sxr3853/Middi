@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { List } from './components/List'
+import { Column } from './components/Column'
 
 export default class App extends Component {
   state = {
@@ -49,18 +49,13 @@ export default class App extends Component {
   render () {
     const { lists } = this.state
     const columns = lists.map((list, i) => (
-      <div className={`col-${list.width}`} key={list.title}>
-        <List
-          i={i}
-          title={list.title}
-          items={list.items}
-          handleInputChange={this.handleInputChange}
-          handleAddClick={this.handleAddClick}
-          value={list.value}
-          type={list.type}
-          placeholder={list.placeholder}
-        />
-      </div>
+      <Column
+        i={i}
+        list={list}
+        key={list.title}
+        handleAddClick={this.handleAddClick}
+        handleInputChange={this.handleInputChange}
+      />
     ))
     return (
       <div className="container mt-4">
@@ -74,10 +69,21 @@ export default class App extends Component {
         }
         <div className="row">
           {columns}
-          <div className="col-1 text-center">
-            <h4>&nbsp;</h4>
+          <div className={`
+            col-lg-1
+            col-md-3
+            col-sm-12
+            col-xs-12
+            text-center
+          `}>
+            <h4 className={`
+              mt-xs-0
+              mt-sm-0
+              mt-md-0
+              mt-lg-3
+            `}>&nbsp;</h4>
             <button
-              className="btn btn-primary"
+              className="btn btn-primary btn-block"
               type="button"
             >
               Go

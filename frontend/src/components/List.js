@@ -18,11 +18,11 @@ export const List = ({
   return (
     <div>
       <ul className="list-group">
-        <h4 className="text-center">
+        <h4 className="mt-3">
           {title}
         </h4>
         {listItems}
-        <div className="input-group mb-3">
+        <div className="input-group">
           <input
             value={value}
             type={type}
