@@ -5,7 +5,9 @@ export const Column = ({
   i,
   list,
   handleAddClick,
-  handleInputChange
+  handleInputChange,
+  handleListItemChange,
+  handleListItemDelete
 }) => (
   <div className={`
     col-lg-${list.width}
@@ -18,6 +20,8 @@ export const Column = ({
       title={list.title}
       items={list.items}
       handleInputChange={handleInputChange}
+      handleListItemChange={handleListItemChange}
+      handleListItemDelete={handleListItemDelete}
       handleAddClick={handleAddClick}
       value={list.value}
       type={list.type}

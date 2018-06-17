@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from MeetupAPI import MeetupAPI
 import json
 
@@ -12,15 +12,15 @@ def index():
 def search():
     content = request.get_json(silent=True)
     print(content)
-    if 'addresses' not in content:
-        return '{"error": "Addresses not sent"}'
+    if 'locations' not in content:
+        return '{"error": "Locations not sent"}'
     else:
         if 'keywords' in content:
-            addresses = content['addresses']
+            locations = content['locations']
             keywords = content['keywords']
-            print(addresses)
+            print(locations)
             meetup = MeetupAPI()
-            res, people_loc = meetup.get_nearby_place(addresses, keywords=keywords)
+            res, people_loc = meetup.get_nearby_place(locations, keywords=keywords)
             if not res:
                 return 'No common point, search with other keywords.'
             else:

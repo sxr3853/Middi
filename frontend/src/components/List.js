@@ -6,13 +6,46 @@ export const List = ({
   items,
   handleAddClick,
   handleInputChange,
+  handleListItemChange,
+  handleListItemDelete,
   value,
   type,
   placeholder
 }) => {
-  const listItems = items.map((item, i) => (
-    <li className="list-group-item" key={`${item}-${Math.random()}`}>
-      <span className="text-muted font-weight-bold">{i + 1}.</span> {item}
+  const listItems = items.map((item, j) => (
+    <li className="list-group-item" key={`${j}`}>
+      <div className="row">
+        <div
+          className="col-1"
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center'
+          }}
+        >
+          <span
+            className="text-muted font-weight-bold"
+          >{j + 1}.</span>
+        </div>
+        <div className="col-11">
+          <div className="input-group">
+            <input
+              value={item}
+              className="form-control"
+              onChange={(e) => handleListItemChange(e, i, j)()}
+            />
+            <div className="input-group-append">
+              <button
+                className="btn btn-secondary btn-sm"
+                type="button"
+                onClick={(e) => handleListItemDelete(e, i, j)()}
+              >
+                <i className="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </li>
   ))
   return (
@@ -41,7 +74,7 @@ export const List = ({
               type="button"
               onClick={handleAddClick(i)}
             >
-              +
+              <i className="fa fa-plus"></i>
             </button>
           </div>
         </div>
