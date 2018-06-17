@@ -25,7 +25,6 @@ class MeetupAPI:
         people_locations = []
         for address in addresses:
             places = self.meetup_google_api.search_nearby_places(address, keywords)
-            people_locations.append(self.meetup_google_api.my_location)
             person_map = self.create_person_map(places)
             person_lookup_table.append(person_map)
 
@@ -58,6 +57,9 @@ class MeetupAPI:
         if not mlist:
             return None
         else:
-            return mlist[0].place_info, people_locations
+            people_locations = self.meetup_google_api.my_locations
+            res_map = mlist[0].place_info._asdict()
+            res_map['people_loc'] = people_locations
+            return res_map
         # for place_id, meetup_info in meetup_info_table.items():
         #     print('{} {}\n {}'.format(meetup_info.std_dev, meetup_info.avg, meetup_info.place_info))

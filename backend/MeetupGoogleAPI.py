@@ -8,7 +8,7 @@ import math
 class MeetupGoogleAPI:
 
     API_KEY = 'AIzaSyDiAF1HBzcTGFFfGHA5bopIEMyrsUmOSBs'
-    FIND_MAX = 15
+    FIND_MAX = 20
 
     def __init__(self):
         self.nearby_search_burl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
@@ -22,7 +22,7 @@ class MeetupGoogleAPI:
                                           'price_level',
                                           'time'
                                           ])
-        self.my_location = None
+        self.my_locations = list()
 
 
     def get_distance(self, lat1,lon1,lat2,lon2):
@@ -72,7 +72,7 @@ class MeetupGoogleAPI:
                                address=result['vicinity'],
                                rating=result.get('rating', None),
                                price_level=result.get('price_level', None),
-                               time=self.get_distance(self.my_location[0], self.my_location[1],
+                               time=self.get_distance(self.my_locations[-1][0], self.my_locations[-1][1],
                                                  result['geometry']['location']['lat'], result['geometry']['location']['lng']))
                             #    time=int(self.get_time_from_distance(self.my_location, result['vicinity']).split(' ')[0]))
             places.append(place)
@@ -95,7 +95,8 @@ class MeetupGoogleAPI:
             'location': location,
             'radius': radius,
             'keyword': type,
-            'type': 'restaurant',
+            'type': 'cafe',
+            'opennow': True,
             'key': self.API_KEY
         }
         data = self.make_request(self.nearby_search_burl, payload)
@@ -126,9 +127,9 @@ class MeetupGoogleAPI:
             'key': self.API_KEY
         }
         data = self.make_request(self.text_search_burl, payload)
-        self.my_location = [data['results'][0]['geometry']['location']['lat'],
-                           data['results'][0]['geometry']['location']['lng']]
-        location = '{}, {}'.format(self.my_location[0], self.my_location[1])
+        self.my_locations.append([ data['results'][0]['geometry']['location']['lat'],
+                                   data['results'][0]['geometry']['location']['lng'] ])
+        location = '{}, {}'.format(self.my_locations[-1][0], self.my_locations[-1][1])
 
         # self.my_location = location
         print('Working on getting nearby places: {}'.format(location))
