@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import { Column } from './components/Column'
 
 export default class App extends Component {
@@ -11,10 +12,10 @@ export default class App extends Component {
       type: 'number',
       width: '3'
     }, {
-      title: 'Addresses',
+      title: 'Locations',
       items: [],
       value: '',
-      placeholder: 'Address',
+      placeholder: 'Location',
       type: 'text',
       width: '4'
     }, {
@@ -46,6 +47,18 @@ export default class App extends Component {
     }
   }
 
+  handleGoClick = async () => {
+    const {
+      locations,
+      keywords
+    } = this.state
+    const res = await axios.post('/search', {
+      locations,
+      keywords
+    })
+    console.log(res.data)
+  }
+
   render () {
     const { lists } = this.state
     const columns = lists.map((list, i) => (
@@ -59,14 +72,6 @@ export default class App extends Component {
     ))
     return (
       <div className="container mt-4">
-        {
-        // <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        //   <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-        //   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        //     <span aria-hidden="true">&times;</span>
-        //   </button>
-        // </div>
-        }
         <div className="row">
           {columns}
           <div className={`
@@ -85,6 +90,7 @@ export default class App extends Component {
             <button
               className="btn btn-primary btn-block"
               type="button"
+              onClick={this.handleGoClick}
             >
               Go
             </button>
