@@ -6,15 +6,15 @@ import geocoder
 
 class MeetupGoogleAPI:
 
-    API_KEY = ''
+    API_KEY = 'AIzaSyDiAF1HBzcTGFFfGHA5bopIEMyrsUmOSBs'
 
     def __init__(self):
         self.nearby_search_burl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
         self.text_search_burl = 'https://maps.googleapis.com/maps/api/place/textsearch/json?'
         self.distance_matrix_burl = 'https://maps.googleapis.com/maps/api/distancematrix/json?'
         self.Place = namedtuple('Place', ['id',
-                                          'name', 
-                                          'location', 
+                                          'name',
+                                          'location',
                                           'address',
                                           'rating',
                                           'price_level',
@@ -56,7 +56,7 @@ class MeetupGoogleAPI:
     def get_time_from_distance(self, origin, dest):
         payload = {
             'origins' : origin,
-            'destinations' : dest, 
+            'destinations' : dest,
             'mode' : 'driving',
             'api_key' : self.API_KEY
         }
