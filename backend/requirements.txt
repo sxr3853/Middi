@@ -1,2 +1,0 @@
-python-google-places==1.4.1
-six==1.11.0
