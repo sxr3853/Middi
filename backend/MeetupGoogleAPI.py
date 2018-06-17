@@ -109,7 +109,7 @@ class MeetupGoogleAPI:
         # if len(address.split('.')) > 1:
         #     return self.search_by_ip(address, radius, type)
         # else:
-            return self.search_by_address(address, radius, type)
+        return self.search_by_address(address, radius, type)
 
     def search_by_ip(self, ip, radius, type):
         # check if the ip is correct
