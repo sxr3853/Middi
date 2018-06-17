@@ -16,7 +16,7 @@ export const List = ({
     <li className="list-group-item" key={`${j}`}>
       <div className="row">
         <div
-          className="col-1"
+          className="col-2"
           style={{
             display: 'flex',
             justifyContent: 'flex-end',
@@ -27,7 +27,7 @@ export const List = ({
             className="text-muted font-weight-bold"
           >{j + 1}.</span>
         </div>
-        <div className="col-11">
+        <div className="col-10">
           <div className="input-group">
             <input
               value={item}

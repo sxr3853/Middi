@@ -36,7 +36,6 @@ export default class App extends Component {
 
   handleListItemChange = (e, i, j) => {
     return () => {
-      console.log(e.target.value, i, j)
       const { value } = e.target
       const nextState = this.state
       nextState.lists[i].items[j] = value
@@ -72,8 +71,8 @@ export default class App extends Component {
   }
 
   handleGoClick = async () => {
-    const locations = this.state.lists[1].items
-    const keywords = this.state.lists[2].items
+    const locations = this.state.lists[0].items
+    const keywords = this.state.lists[1].items
     await this.setState({
       isMapLoading: true
     })
@@ -86,6 +85,7 @@ export default class App extends Component {
       }
     })
     const { location } = res.data
+    console.log(res.data)
     this.setState({
       isMapLoading: false,
       coordinates: {

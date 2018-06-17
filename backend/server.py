@@ -20,13 +20,11 @@ def search():
             keywords = content['keywords']
             print(locations)
             meetup = MeetupAPI()
-            res, people_loc = meetup.get_nearby_place(locations, keywords=keywords)
+            res = meetup.get_nearby_place(addresses, keywords=keywords)
             if not res:
                 return 'No common point, search with other keywords.'
             else:
-                m = res._asdict()
-                m['people_loc'] = people_loc
-                return json.dumps(m)
+                return json.dumps(res)
     return None
 
 
