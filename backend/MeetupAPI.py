@@ -22,11 +22,14 @@ class MeetupAPI:
 
     def create_lookup_table(self, addresses, keywords):
         person_lookup_table = list()
+        people_locations = []
         for address in addresses:
             places = self.meetup_google_api.search_nearby_places(address, keywords)
+            people_locations.append(self.meetup_google_api.my_location)
             person_map = self.create_person_map(places)
             person_lookup_table.append(person_map)
-        return person_lookup_table
+
+        return person_lookup_table, people_locations
 
 
     def create_meetup_info_table(self, person_lookup_table):
@@ -48,13 +51,13 @@ class MeetupAPI:
 
     def get_nearby_place(self, addresses, keywords=['restaurant', 'coffee']):
         print('Working on creating a lookup table')
-        person_lookup_table = self.create_lookup_table(addresses, keywords)
+        person_lookup_table, people_locations = self.create_lookup_table(addresses, keywords)
         print('Working on finding common place to meet')
         meetup_list = self.create_meetup_info_table(person_lookup_table)
         mlist = sorted(meetup_list, key=lambda x: x.avg+x.std_dev)
         if not mlist:
             return None
         else:
-            return mlist[0].place_info
+            return mlist[0].place_info, people_locations
         # for place_id, meetup_info in meetup_info_table.items():
         #     print('{} {}\n {}'.format(meetup_info.std_dev, meetup_info.avg, meetup_info.place_info))
