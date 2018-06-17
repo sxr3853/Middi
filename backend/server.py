@@ -20,7 +20,7 @@ def search():
             keywords = content['keywords']
             print(locations)
             meetup = MeetupAPI()
-            res = meetup.get_nearby_place(addresses, keywords=keywords)
+            res = meetup.get_nearby_place(locations, keywords=keywords)
             if not res:
                 return 'No common point, search with other keywords.'
             else:
