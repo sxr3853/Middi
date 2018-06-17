@@ -8,6 +8,7 @@ import math
 class MeetupGoogleAPI:
 
     API_KEY = 'AIzaSyDiAF1HBzcTGFFfGHA5bopIEMyrsUmOSBs'
+    FIND_MAX = 15
 
     def __init__(self):
         self.nearby_search_burl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
@@ -59,7 +60,10 @@ class MeetupGoogleAPI:
 
     def get_places_from_json(self, data):
         places = list()
-        for result in data['results']:
+        for i, result in enumerate(data['results']):
+            if i == self.FIND_MAX:
+                break
+            i = i + 1
             place = self.Place(id=result['id'],
                                name=result['name'],
                                location='{}, {}'.format(result['geometry']['location']['lat'],
@@ -100,7 +104,7 @@ class MeetupGoogleAPI:
         return None
 
 
-    def search_nearby_places(self, address, type, radius=30000):
+    def search_nearby_places(self, address, type, radius=50000):
         if len(address.split('.')) > 1:
             return self.search_by_ip(address, radius, type)
         else:

@@ -52,6 +52,9 @@ class MeetupAPI:
         print('Working on finding common place to meet')
         meetup_list = self.create_meetup_info_table(person_lookup_table)
         mlist = sorted(meetup_list, key=lambda x: x.avg+x.std_dev)
-        return sorted(meetup_list, key=lambda x: x.avg+x.std_dev)[0].place_info
+        if not mlist:
+            return None
+        else:
+            return mlist[0].place_info
         # for place_id, meetup_info in meetup_info_table.items():
         #     print('{} {}\n {}'.format(meetup_info.std_dev, meetup_info.avg, meetup_info.place_info))
