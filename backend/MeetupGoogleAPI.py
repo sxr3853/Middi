@@ -3,6 +3,7 @@ import requests
 import sys
 from collections import namedtuple
 import geocoder
+import math
 
 class MeetupGoogleAPI:
 
@@ -21,6 +22,23 @@ class MeetupGoogleAPI:
                                           'time'
                                           ])
         self.my_location = None
+
+
+    def get_distance(self, lat1,lon1,lat2,lon2):
+        R = 6371
+        dLat = self.deg2rad(lat2-lat1)
+        dLon = self.deg2rad(lon2-lon1)
+        a = math.sin(dLat/2) * math.sin(dLat/2) + \
+            math.cos(self.deg2rad(lat1)) * math.cos(self.deg2rad(lat2)) * \
+            math.sin(dLon/2) * math.sin(dLon/2)
+        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+        d = R * c
+        return d
+        
+
+    def deg2rad(self, deg):
+        return deg * (math.pi/180)
+    
 
     def make_request(self, base, payload):
         r = requests.get(base, params=payload)
@@ -49,7 +67,9 @@ class MeetupGoogleAPI:
                                address=result['vicinity'],
                                rating=result.get('rating', None),
                                price_level=result.get('price_level', None),
-                               time=int(self.get_time_from_distance(self.my_location, result['vicinity']).split(' ')[0]))
+                               time=self.get_distance(self.my_location[0], self.my_location[1],
+                                                 result['geometry']['location']['lat'], result['geometry']['location']['lng']))
+                            #    time=int(self.get_time_from_distance(self.my_location, result['vicinity']).split(' ')[0]))
             places.append(place)
         return places
 
@@ -69,7 +89,8 @@ class MeetupGoogleAPI:
         payload = {
             'location': location,
             'radius': radius,
-            'type': type,
+            'keyword': type,
+            'type': 'restaurant',
             'key': self.API_KEY
         }
         data = self.make_request(self.nearby_search_burl, payload)
@@ -100,11 +121,13 @@ class MeetupGoogleAPI:
             'key': self.API_KEY
         }
         data = self.make_request(self.text_search_burl, payload)
-        location = '{}, {}'.format(data['results'][0]['geometry']['location']['lat'],
-                                   data['results'][0]['geometry']['location']['lng'])
-        self.my_location = location
+        self.my_location = [data['results'][0]['geometry']['location']['lat'],
+                           data['results'][0]['geometry']['location']['lng']]
+        location = '{}, {}'.format(self.my_location[0], self.my_location[1])
+
+        # self.my_location = location
         print('Working on getting nearby places: {}'.format(location))
         return self.search_nearby_places_helper(location, radius, type)
 
 # m = MeetupGoogleAPI()
-# m.search_nearby_places('1 AT&T Way, Arlington, TX 76011')
+# m.search_nearby_places('408 kerby street, arlington tx', type='restaurant')

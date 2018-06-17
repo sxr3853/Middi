@@ -55,8 +55,3 @@ class MeetupAPI:
         return sorted(meetup_list, key=lambda x: x.avg+x.std_dev)[0].place_info
         # for place_id, meetup_info in meetup_info_table.items():
         #     print('{} {}\n {}'.format(meetup_info.std_dev, meetup_info.avg, meetup_info.place_info))
-
-
-# m = MeetupAPI()
-# print(m.get_nearby_place(['408 kerby street, arlington tx',
-#                           '13301 galleria place, farmers branch, tx'])._asdict())
