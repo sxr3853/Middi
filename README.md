@@ -1,1 +1,1 @@
-# meetup-app
+Code for the Middi app.
