@@ -43,6 +43,7 @@ class MeetupGoogleAPI:
 
     def make_request(self, base, payload):
         r = requests.get(base, params=payload)
+        print(r.url)
         if r.status_code != 200:
             print('HTTP status code {}'.format(r.status_code))
         else:
@@ -105,9 +106,9 @@ class MeetupGoogleAPI:
 
 
     def search_nearby_places(self, address, type, radius=50000):
-        if len(address.split('.')) > 1:
-            return self.search_by_ip(address, radius, type)
-        else:
+        # if len(address.split('.')) > 1:
+        #     return self.search_by_ip(address, radius, type)
+        # else:
             return self.search_by_address(address, radius, type)
 
     def search_by_ip(self, ip, radius, type):
