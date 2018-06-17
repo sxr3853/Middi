@@ -66,8 +66,8 @@ class MeetupGoogleAPI:
             i = i + 1
             place = self.Place(id=result['id'],
                                name=result['name'],
-                               location='{}, {}'.format(result['geometry']['location']['lat'],
-                                                        result['geometry']['location']['lng']),
+                               location=[result['geometry']['location']['lat'],
+                                         result['geometry']['location']['lng']],
                                address=result['vicinity'],
                                rating=result.get('rating', None),
                                price_level=result.get('price_level', None),
