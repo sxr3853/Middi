@@ -1,5 +1,6 @@
 from flask import Flask, request
 from MeetupAPI import MeetupAPI
+import json
 
 app = Flask(__name__)
 
@@ -12,10 +13,12 @@ def search():
     else:
         if 'keywords' in content:
             addresses = content['addresses']
-            # keywords = ', '.join(content['keywords'])
+            keywords = content['keywords']
             print(addresses)
             meetup = MeetupAPI()
-            return str(meetup.get_nearby_place(addresses))
+            return json.dumps(meetup.get_nearby_place(addresses, keywords=keywords)._asdict())
+    return None
+
 
 if __name__ == '__main__':
     app.run()

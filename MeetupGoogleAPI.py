@@ -65,6 +65,7 @@ class MeetupGoogleAPI:
 
 
     def search_nearby_places_helper(self, location, radius, type):
+        print(type)
         payload = {
             'location': location,
             'radius': radius,
@@ -78,13 +79,13 @@ class MeetupGoogleAPI:
         return None
 
 
-    def search_nearby_places(self, address, radius=50000, type='restaurant'):
+    def search_nearby_places(self, address, type, radius=30000):
         if len(address.split('.')) > 1:
             return self.search_by_ip(address, radius, type)
         else:
             return self.search_by_address(address, radius, type)
 
-    def search_by_ip(self, ip, radius=100, type='restaurant'):
+    def search_by_ip(self, ip, radius, type):
         # check if the ip is correct
         # TODO
 
@@ -92,7 +93,7 @@ class MeetupGoogleAPI:
         location = self.get_loc_from_ip(ip)
         return self.search_nearby_places_helper(location, radius, type)
 
-    def search_by_address(self, address, radius, type='restaurant'):
+    def search_by_address(self, address, radius, type):
         print('Working on getting location')
         payload = {
             'query': address,

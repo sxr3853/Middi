@@ -23,7 +23,7 @@ class MeetupAPI:
     def create_lookup_table(self, addresses, keywords):
         person_lookup_table = list()
         for address in addresses:
-            places = self.meetup_google_api.search_nearby_places(address, type=keywords)
+            places = self.meetup_google_api.search_nearby_places(address, keywords)
             person_map = self.create_person_map(places)
             person_lookup_table.append(person_map)
         return person_lookup_table
@@ -46,11 +46,12 @@ class MeetupAPI:
                 meetup_list.append(MeetupInfo(time_list, place))
         return meetup_list
 
-    def get_nearby_place(self, addresses, keywords='restaurants'):
+    def get_nearby_place(self, addresses, keywords=['restaurant', 'coffee']):
         print('Working on creating a lookup table')
         person_lookup_table = self.create_lookup_table(addresses, keywords)
         print('Working on finding common place to meet')
         meetup_list = self.create_meetup_info_table(person_lookup_table)
+        mlist = sorted(meetup_list, key=lambda x: x.avg+x.std_dev)
         return sorted(meetup_list, key=lambda x: x.avg+x.std_dev)[0].place_info
         # for place_id, meetup_info in meetup_info_table.items():
         #     print('{} {}\n {}'.format(meetup_info.std_dev, meetup_info.avg, meetup_info.place_info))
@@ -58,4 +59,4 @@ class MeetupAPI:
 
 # m = MeetupAPI()
 # print(m.get_nearby_place(['408 kerby street, arlington tx',
-#                           '13301 galleria place, farmers branch, tx']))
+#                           '13301 galleria place, farmers branch, tx'])._asdict())
