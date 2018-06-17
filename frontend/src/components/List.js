@@ -1,29 +1,47 @@
 import React from 'react'
 
-export const List = ({ items }) => {
+export const List = ({
+  i,
+  title,
+  items,
+  handleAddClick,
+  handleInputChange,
+  value,
+  type,
+  placeholder
+}) => {
   const listItems = items.map((item) => (
-    <li className="list-group-item" key={item}>
+    <li className="list-group-item" key={`${item}-${Math.random()}`}>
       {item}
     </li>
   ))
   return (
     <div>
       <ul className="list-group">
+        <h4 className="text-center">
+          {title}
+        </h4>
         {listItems}
         <div className="input-group mb-3">
           <input
-            type="text"
+            value={value}
+            type={type}
             className="form-control"
-            placeholder="Name"
-            aria-label="Recipient's username"
-            aria-describedby="basic-addon2"
+            placeholder={placeholder}
+            onChange={(e) => handleInputChange(e, i)()}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleAddClick(i)()
+              }
+            }}
           />
           <div className="input-group-append">
             <button
-              className="btn btn-outline-secondary"
+              className="btn btn-dark"
               type="button"
+              onClick={handleAddClick(i)}
             >
-              Add
+              +
             </button>
           </div>
         </div>
