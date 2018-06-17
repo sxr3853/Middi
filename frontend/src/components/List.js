@@ -10,9 +10,9 @@ export const List = ({
   type,
   placeholder
 }) => {
-  const listItems = items.map((item) => (
+  const listItems = items.map((item, i) => (
     <li className="list-group-item" key={`${item}-${Math.random()}`}>
-      {item}
+      <span className="text-muted font-weight-bold">{i + 1}.</span> {item}
     </li>
   ))
   return (

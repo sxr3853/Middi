@@ -9,14 +9,14 @@ export default class App extends Component {
       value: '',
       placeholder: 'Phone',
       type: 'number',
-      width: '2'
+      width: '3'
     }, {
       title: 'Addresses',
       items: [],
       value: '',
       placeholder: 'Address',
       type: 'text',
-      width: '5'
+      width: '4'
     }, {
       title: 'Keywords',
       items: [],
